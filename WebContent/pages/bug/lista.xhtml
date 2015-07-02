@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/Templates/template_principal.xhtml">
+	<ui:define name="corpo">
+	<t:saveState value="#{bugBean.bugs}" />
+		<h1>Listagem de Bugs</h1>
+		<h:form id="form">
+			<div class="acoes-principais">
+				<h:commandLink value="Novo" action="novo">
+					<p:ajax update="@form" />
+				</h:commandLink>
+				&#160;
+				<h:commandButton value="Listar" action="#{bugBean.lista}">
+					<f:ajax render="@form :mensagens" />
+				</h:commandButton>
+			</div>
+			<h:dataTable value="#{bugBean.bugs}" var="bug" styleClass="dados"
+				rowClasses="impar, par">
+				<h:column>
+					<f:facet name="header">ID</f:facet>
+#{bug.id}
+</h:column>
+				<h:column>
+					<f:facet name="header">Sumário</f:facet>
+#{bug.sumario}
+</h:column>
+				<h:column>
+					<f:facet name="header">Status</f:facet>
+#{bug.status}
+</h:column>
+				<h:column>
+					<f:facet name="header">Responsável</f:facet>
+#{bug.responsavel.nome}
+</h:column>
+				<h:column>
+					<f:facet name="header">Reportado em</f:facet>
+<!-- Subistitui pelo outputText #{bug.criadoEm}"-->
+<h:outputText value="#{bug.criadoEm}">
+<f:convertDateTime pattern="dd/MM/yyyy"/>
+</h:outputText>
+
+</h:column>
+<h:column>
+<f:facet name="header">Ações</f:facet>
+<h:commandLink value="remover" action="#{bugBean.remove(bug)}" onclick="return confirm('Deseja realmente remover esse bug?'); ">
+<f:ajax render="@form :mensagens"/>
+</h:commandLink>
+</h:column>
+
+			</h:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

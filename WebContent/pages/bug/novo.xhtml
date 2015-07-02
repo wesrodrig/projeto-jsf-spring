@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/Templates/template_principal.xhtml">
+	<ui:define name="corpo">
+
+		<h1>Novo Bug</h1>
+		<h:form id="form">
+			<h:outputLabel value="Sumário" for="sumario" />
+			<h:inputText id="sumario" value="#{bugBean.bug.sumario}"
+				label="Sumário" required="true" />
+			<h:outputLabel value="Descrição" for="descricao" />
+			<h:inputTextarea id="descricao" rows="3" styleClass="texto-longo"
+				required="true" label="Descrição" value="#{bugBean.bug.descricao}">
+				<f:validateLength maximum="1000" />
+			</h:inputTextarea>
+			<h:outputLabel value="Status" for="status" />
+			<h:selectOneRadio id="status" value="#{bugBean.bug.status}">
+				<f:selectItems value="#{bugBean.todosOsStatus}" var="status"
+					itemLabel="#{status}" itemValue="#{status}" />
+			</h:selectOneRadio>
+			<h:outputLabel value="Responsável" for="responsavel" />
+			<h:selectOneMenu id="responsavel" label="Responsável"
+				value="#{bugBean.bug.responsavel.id}" required="true">
+				<f:selectItem itemLabel="Selecione um usuário"
+					noSelectionOption="true" />
+				<f:selectItems value="#{usuarioDao.lista()}" var="u"
+					itemLabel="#{u.nome}" itemValue="#{u.id}" />
+			</h:selectOneMenu>
+			<h:outputLabel value="Reportado em" for="criadoEm" />
+						<p:inputMask id="criadoEm" value="#{bugBean.bug.criadoEm}" label="Reportado em" required="true" mask="99/99/9999">
+			<f:convertDateTime pattern="dd/MM/yyyy" />
+			</p:inputMask>
+			<div class="acoes-principais">
+				<h:commandLink value="Voltar" action="lista" immediate="true">
+					<f:ajax render="@form" />
+				</h:commandLink>
+				&#160;
+				<h:commandButton value="Salvar" action="#{bugBean.adiciona}">
+					<f:ajax render="@form :mensagens" execute="@form" />
+				</h:commandButton>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

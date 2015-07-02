@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<ui:composition template="/Templates/template_principal.xhtml">
+		<ui:define name="corpo">
+			<h1>Novo Usuário</h1>
+			<t:saveState value="#{usuarioBean.usuario}" />
+			<h:form id="form">
+				<h:outputLabel value="Nome" for="nome" />
+				<h:inputText id="nome" value="#{usuarioBean.usuario.nome}"
+					required="true" label="Nome">
+					<f:validateLength minimum="4" />
+					<f:validateRegex pattern="[a-zA-Z]+" />
+				</h:inputText>
+				<h:outputLabel value="Login" for="login" />
+				<h:inputText id="login" value="#{usuarioBean.usuario.login}"
+					readonly="true" label="Login">
+					<f:validateLength minimum="4" />
+					<f:validateRegex pattern="[a-zA-Z]+" />
+				</h:inputText>
+				<h:outputLabel value="Senha" for="senha" />
+				<h:inputSecret id="senha" value="#{usuarioBean.usuario.senha}"
+					required="true" label="Senha">
+					<f:validator validatorId="senhaForte" />
+				</h:inputSecret>
+				<div class="acoes-principais">
+					<h:commandLink value="Voltar" action="lista" immediate="true">
+						<p:ajax process="@form" update="@form" />
+					</h:commandLink>
+					&#160;
+					<h:commandButton value="Salvar" action="#{usuarioBean.altera}">
+						<p:ajax process="@form" update="@form" />
+					</h:commandButton>
+				</div>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+
+</h:body>
+</html>

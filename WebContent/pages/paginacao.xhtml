@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/Templates/template_principal.xhtml">
+	<ui:define name="corpo">
+		<h1>Paginação de Bugs</h1>
+		<h:form id="form">
+			<p:dataTable value="#{bugDataModel}" var="bug" paginator="true" rows="4" lazy="true">
+				<p:column headerText="ID">
+#{bug.id}
+</p:column>
+				<p:column headerText="Sumário">
+#{bug.sumario}
+</p:column>
+				<p:column headerText="Status">
+#{bug.status}
+</p:column>
+				<p:column headerText="Responsável">
+#{bug.responsavel.nome}
+</p:column>
+				<p:column headerText="Reportado em">
+					<h:outputText value="#{bug.criadoEm}">
+						<f:convertDateTime pattern="dd/MM/yyyy"
+							timeZone="America/Fortaleza" />
+					</h:outputText>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

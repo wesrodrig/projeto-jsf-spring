@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<ui:composition template="/Templates/template_principal.xhtml">
+		<ui:define name="corpo">
+			<t:saveState value="#{usuarioBean.usuarios}" />
+			<h1>Listagem de Usuários</h1>
+			<h:form id="form">
+				<div class="acoes-principais">
+					<h:commandButton value="Listar" action="#{usuarioBean.lista}">
+						<p:ajax process="@form" update="@form" />
+					</h:commandButton>
+					<h:commandLink value="Novo" action="novo">
+						<p:ajax process="@form" update="@form" />
+					</h:commandLink>
+				</div>
+				<h:dataTable value="#{usuarioBean.usuarios}" var="usuario"
+					styleClass="dados" rowClasses="impar, par">
+					<h:commandLink value="Listar" action="#{usuarioBean.lista}">
+						<p:ajax process="@form" update="@form" />
+					</h:commandLink>
+					<h:column>
+						<f:facet name="header">ID</f:facet>
+#{usuario.id}
+</h:column>
+					<h:column>
+						<f:facet name="header">Nome</f:facet>
+#{usuario.nome}
+</h:column>
+					<h:column>
+						<f:facet name="header">Login</f:facet>
+#{usuario.login}
+</h:column>
+					<h:column>
+						<f:facet name="header">Ações</f:facet>
+						<h:commandLink value="remover"
+							action="#{usuarioBean.remove(usuario)}">
+							<p:ajax process="@form" update="@form" />
+						</h:commandLink>
+					</h:column>
+					<h:column>
+						<div class="acoes-principais">
+							&#160;
+							<f:facet name="header">Alterar</f:facet>
+							<h:commandLink value="alterar" action="edita">
+								<p:ajax process="@form" update="@form" />
+								<f:setPropertyActionListener value="#{usuario}"
+									target="#{usuarioBean.usuario}" />
+							</h:commandLink>
+						</div>
+					</h:column>
+				</h:dataTable>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
